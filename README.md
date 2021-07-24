@@ -34,20 +34,12 @@
 ### 2.2.1 RDP协议
 RDP是由 MicroSoft 公司开发的应用层协议，该协议是对国际电信联盟发布的一个国际标准的多通道会议协议T.120的一个扩展，它是微软 Windows-based TerminalServices 应用的协议。终端服务的工作原理是客户机和服务器通过TCP/IP协议和标准的局域网架构联系。通过客户端终端，将客户机的输入传递到终端服务器上，再把服务器上的显示传递回客户端。客户端不需要具有计算能力，至多只需要提供一定的缓存能力。由表2-2可以看出，RDP协议是基于标准TCP连接，经过多层将数据流传输于客户端与服务器之间。并通过多层协议使得协议从功能上可以适用于更多的远程控制应用环境。在这一协议下，客户端桌面共享的显示更新策略是由服务器定时发送更新信息的。<br>
 
-
-表2-2 RDP4.0协议模型
-RDP层	应用程序共享
-Application Sharing
-SEC层	加密解密
-Security Layer
-MCS层	普通会议控制
-Generic Conference Control
-GCC层	多点通信服务
-Multipoint Communication Service
-ISO层	传输服务
-ISO DP 8073
-TCP层	TCP服务
-TCP Service
+|RDP层	|应用程序共享 Application Sharing
+|SEC层	|加密解密Security Layer
+|MCS层	|普通会议控制 Generic Conference Control
+|GCC层	|多点通信服务 Multipoint Communication Service
+|ISO层	|传输服务 ISO DP 8073
+|TCP层	|TCP服务 TCP Service|
 ### 2.2.2 RFB协议
 RFB是一个用于远程访问图形用户界面的简单协议。由于RFB协议工作在帧缓冲层，不涉及上层操作系统的图像渲染接口，因此适用于所有窗口系统。用户使用的远程终端称为RFB客户端，引起帧缓冲改变的终端称为RFB服务器端。RFB 协议设计时主要考虑的是尽量减少对客户端的需求，尽可能简化客户端的任务，因此RFB协议中客户端不需要完成复杂运算，只需将服务器发送过来的桌面图片在本地进行重绘，并且将用户操作的事件回传给服务器即可。在服务器端保存着本地Framebuffer信息以及客户端FrameBuffer信息，若客户端的操作导致了本地FrameBuffer的变化，服务器会判断当前FrameBuffer与客户端的 Framebuffer是否有变化，若有变化，则将变化的部分回送给客户端。RFB 协议主要涉及图像显示协议，输入协议，像素数据表示，协议扩展，协议消息几部分，其工作流程分为初次握手阶段和正常协议交互阶段。
 ## 2.3 图像压缩

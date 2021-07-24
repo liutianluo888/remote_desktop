@@ -180,17 +180,13 @@ def SetSocket():
                   return
 
 4.鼠标操作与键盘操作。这里的操作是在上述的框中进行的。当客户端按鼠标左键时，根据上下这两部分代码，服务端也会产生一个按下鼠标左键的行为。同样，客户端按鼠标右键或滚动滚轮时，在服务端也会对应相应的操作。当客户端按键盘时，服务端也会有相应的操作。如若客户端按“a”键，服务端也会是一个按了“a”键的操作。这部分是客户端的代码，会将其对应服务发送给服务端，服务端对应代码进行接收并解析协议，执行操作。
-
-      def BindEvents(canvas):
-          global soc, scale
-          '''
-          处理事件
-          '''
-          def EventDo(data):
-              soc.sendall(data)
-          # 鼠标左键
-          def LeftDown(e):
-              return EventDo(struct.pack('>BBHH', 1, 100, int(e.x/scale), int(e.y/scale)))
+```
+def BindEvents(canvas):
+    global soc, scale
+    def EventDo(data):
+        soc.sendall(data)
+     def LeftDown(e):
+         return EventDo(struct.pack('>BBHH', 1, 100, int(e.x/scale), int(e.y/scale)))
 
     def LeftUp(e):
         return EventDo(struct.pack('>BBHH', 1, 117, int(e.x/scale), int(e.y/scale)))
@@ -221,6 +217,7 @@ def SetSocket():
         return EventDo(struct.pack('>BBHH', e.keycode, 117, int(e.x/scale), int(e.y/scale)))
     canvas.bind(sequence="<KeyPress>", func=KeyDown)
     canvas.bind(sequence="<KeyRelease>", func=KeyUp)
+  ```
 
 5.快捷方式。快捷命令函数与tkinter布局的界面上的触发事件绑定，触发事件后即向服务端发送相应的操作。
 
@@ -435,7 +432,7 @@ def SetSocket():
 
 ```
 2.鼠标与键盘的执行。接收客户端发来的协议，对其进行解包，获得编码地址与op，key值。根据op值与key值判断进行的操作是鼠标左键按下或者弹起。或是鼠标右键按下或者弹起，或是滚轮的操作或是键盘输入，或是快捷方式。进行相应模块后，根据（x，y）值将鼠标移到相应位置并进行操作。如要进行关闭某个页面的操作，（x，y）可以定位到×的位置，op与key可以判断这是一个鼠标左键按下的操作，就可以完成关闭这个页面的操作。键盘输入和快捷方式与上述代码相对应，可以知道具体为什么操作，判断出来后即可执行相应操作。
-def video_demo():
+```def video_demo():
     # 0是代表摄像头编号，只有一个的话默认为0
     cap = cv.VideoCapture(0)
     while cap.isOpened():
@@ -525,10 +522,11 @@ def ctrl(conn):
             y = struct.unpack('>H', cmd[4:6])[0]
             Op(key, op, x, y)
     except:
-        return`
+        return
+ ```
 
 3.进行图像加法。将截取的图片进行编码，将其打包并计算数据长度。将数据长度与数据都发送给客户端。计算第二张图片的大小为l1与两张图片的差值l2，如果l1>l2，则将差值图片发送给客户端，否则则直接把第二张图片发给客户端。
-`def handle(conn):
+```def handle(conn):
     global img, imbyt
     lock.acquire()
     if imbyt is None:
@@ -569,10 +567,11 @@ def ctrl(conn):
             # 传原编码图像
             lenb = struct.pack(">BI", 1, l1)
             conn.sendall(lenb)
-            conn.sendall(imbyt)`
+            conn.sendall(imbyt)
+```
 
 4.用户界面设置。使用方法与客户端基本相同，只是此处呈现本机IP地址，采用命令行获得，并切片提取IP进行展示。
-`def Dark_view():
+```def Dark_view():
     global root
     root.config(bg='darkgrey')
 
@@ -662,7 +661,8 @@ ip=IP()
 host_value = Label(frame1, text=ip,font=('Arial', 16))
 host_value.pack(side=RIGHT)
 frame1.pack(expand="yes",padx=20, pady=20)
-root.mainloop()`
+root.mainloop()
+```
 
 
 

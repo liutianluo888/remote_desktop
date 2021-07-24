@@ -68,115 +68,119 @@ RFB是一个用于远程访问图形用户界面的简单协议。由于RFB协�
 # 3.2 功能实现
 ## 3.2.1 客户端
 1. 初始化socket。对主机ip进行打包，变成长度为4的数据。开始一个新的线程。
-        def SetSocket():
-        global soc, host_en
-    def byipv4(ip, port):
-       return struct.pack(">BBBBBBBBH", 5, 1, 0, 1, ip[0], ip[1], ip[2], ip[3], port)
-    def byhost(host, port):
-        d = struct.pack(">BBBB", 5, 1, 0, 3)
-        blen = len(host)
-        d+=struct.pack(">B", blen)
-        d+=host.encode()
-        d+=struct.pack(">H", port)
-        return d
-    host = host_en.get()
+
+      def SetSocket():
+          global soc, host_en
+          def byipv4(ip, port):
+             return struct.pack(">BBBBBBBBH", 5, 1, 0, 1, ip[0], ip[1], ip[2], ip[3], port)
+          def byhost(host, port):
+              d = struct.pack(">BBBB", 5, 1, 0, 3)
+              blen = len(host)
+              d+=struct.pack(">B", blen)
+              d+=host.encode()
+              d+=struct.pack(">H", port)
+              return d
+          host = host_en.get()
 
 2.图形界面的创建。创建一个GUI界面，填入名称，框以及滑动块。在host中输入要控制的主机的ip地址及端口，在下面通过滑动滑块可以调整控制屏幕的大小，转化为自己想要的显示屏幕大小。
-val = StringVar()
-host_lab = Label(frame1, text="Host:  ")
-host_en = Entry(frame1, show=None, font=('Arial', 14), textvariable=val)
-sca_lab = Label(frame2, text="Scale:")
-sca = Scale(frame2, from_=10, to=100, orient=HORIZONTAL, length=400,
-                    showvalue=100, resolution=0.1, tickinterval=10, command=SetScale)
-show_btn = Button(frame3, text="  Show  ", command=ShowScreen)
-function_btn=Button(frame3, text="Function", command=View)
 
-host_lab.pack(side=tkinter.LEFT)
-host_en.pack(fill="x")
-sca_lab.pack(side=tkinter.LEFT)
-sca.pack(fill="x")
-show_btn.pack(padx=10, pady=10,side=tkinter.LEFT)
-function_btn.pack(padx=40, pady=10,side=tkinter.RIGHT)
+      val = StringVar()
+      host_lab = Label(frame1, text="Host:  ")
+      host_en = Entry(frame1, show=None, font=('Arial', 14), textvariable=val)
+      sca_lab = Label(frame2, text="Scale:")
+      sca = Scale(frame2, from_=10, to=100, orient=HORIZONTAL, length=400,
+                          showvalue=100, resolution=0.1, tickinterval=10, command=SetScale)
+      show_btn = Button(frame3, text="  Show  ", command=ShowScreen)
+      function_btn=Button(frame3, text="Function", command=View)
 
-frame1.pack(fill="x",expand="yes",padx=20, pady=20)
-frame2.pack(fill="x",expand="yes",padx=10, pady=10)
-frame3.pack(expand="yes")
+      host_lab.pack(side=tkinter.LEFT)
+      host_en.pack(fill="x")
+      sca_lab.pack(side=tkinter.LEFT)
+      sca.pack(fill="x")
+      show_btn.pack(padx=10, pady=10,side=tkinter.LEFT)
+      function_btn.pack(padx=40, pady=10,side=tkinter.RIGHT)
+
+      frame1.pack(fill="x",expand="yes",padx=20, pady=20)
+      frame2.pack(fill="x",expand="yes",padx=10, pady=10)
+      frame3.pack(expand="yes")
 
 3.创建了一个基于Canvas的框，鼠标事件和键盘事件都是在这个框内执行。首先是将服务端发来的数据（图片）长度解包，判断解包的长度与缓冲区的大小。如果缓冲区大小更大，说明还可以再接受一个图片。后将图片用unit8进行编码，计算图片的长和宽用于构建框。
-def run():
-    global wscale, fixh, fixw, soc, showcan
-    SetSocket()
-    lenb = soc.recv(5)
-    imtype, le = struct.unpack(">BI", lenb)
-    imb = b''
-    while le > bufsize:
-        t = soc.recv(bufsize)
-        imb += t
-        le -= len(t)
-    while le > 0:
-        t = soc.recv(le)
-        imb += t
-        le -= len(t)
-    data = np.frombuffer(imb, dtype=np.uint8)
-    img = cv2.imdecode(data, cv2.IMREAD_COLOR)
-    h, w, _ = img.shape
-    fixh, fixw = h, w
-    imsh = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)
-    imi = Image.fromarray(imsh)
-    imgTK = ImageTk.PhotoImage(image=imi)
-    cv = tkinter.Canvas(showcan, width=w, height=h, bg="white")
-    cv.focus_set()
-    BindEvents(cv)
-    cv.pack()
-    cv.create_image(0, 0, anchor=tkinter.NW, image=imgTK)
-    h = int(h * scale)
-    w = int(w * scale)
-    while True:
-        if wscale:
-            h = int(fixh * scale)
-            w = int(fixw * scale)
-            cv.config(width=w, height=h)
-            wscale = False
-        try:
-            lenb = soc.recv(5)
-            imtype, le = struct.unpack(">BI", lenb)
-            imb = b''
-            while le > bufsize:
-                t = soc.recv(bufsize)
-                imb += t
-                le -= len(t)
-            while le > 0:
-                t = soc.recv(le)
-                imb += t
-                le -= len(t)
-            data = np.frombuffer(imb, dtype=np.uint8)
-            ims = cv2.imdecode(data, cv2.IMREAD_COLOR)
-            if imtype == 1:
-                # 全传
-                img = ims
-            else:
-                # 差异传
-                img = img + ims
-            imt = cv2.resize(img, (w, h))
-            imsh = cv2.cvtColor(imt, cv2.COLOR_RGB2RGBA)
-            imi = Image.fromarray(imsh)
-            imgTK.paste(imi)
-        except:
-            showcan = None
-            ShowScreen()
-            return
+
+      def run():
+          global wscale, fixh, fixw, soc, showcan
+          SetSocket()
+          lenb = soc.recv(5)
+          imtype, le = struct.unpack(">BI", lenb)
+          imb = b''
+          while le > bufsize:
+              t = soc.recv(bufsize)
+              imb += t
+              le -= len(t)
+          while le > 0:
+              t = soc.recv(le)
+              imb += t
+              le -= len(t)
+          data = np.frombuffer(imb, dtype=np.uint8)
+          img = cv2.imdecode(data, cv2.IMREAD_COLOR)
+          h, w, _ = img.shape
+          fixh, fixw = h, w
+          imsh = cv2.cvtColor(img, cv2.COLOR_BGR2RGBA)
+          imi = Image.fromarray(imsh)
+          imgTK = ImageTk.PhotoImage(image=imi)
+          cv = tkinter.Canvas(showcan, width=w, height=h, bg="white")
+          cv.focus_set()
+          BindEvents(cv)
+          cv.pack()
+          cv.create_image(0, 0, anchor=tkinter.NW, image=imgTK)
+          h = int(h * scale)
+          w = int(w * scale)
+          while True:
+              if wscale:
+                  h = int(fixh * scale)
+                  w = int(fixw * scale)
+                  cv.config(width=w, height=h)
+                  wscale = False
+              try:
+                  lenb = soc.recv(5)
+                  imtype, le = struct.unpack(">BI", lenb)
+                  imb = b''
+                  while le > bufsize:
+                      t = soc.recv(bufsize)
+                      imb += t
+                      le -= len(t)
+                  while le > 0:
+                      t = soc.recv(le)
+                      imb += t
+                      le -= len(t)
+                  data = np.frombuffer(imb, dtype=np.uint8)
+                  ims = cv2.imdecode(data, cv2.IMREAD_COLOR)
+                  if imtype == 1:
+                      # 全传
+                      img = ims
+                  else:
+                      # 差异传
+                      img = img + ims
+                  imt = cv2.resize(img, (w, h))
+                  imsh = cv2.cvtColor(imt, cv2.COLOR_RGB2RGBA)
+                  imi = Image.fromarray(imsh)
+                  imgTK.paste(imi)
+              except:
+                  showcan = None
+                  ShowScreen()
+                  return
 
 4.鼠标操作与键盘操作。这里的操作是在上述的框中进行的。当客户端按鼠标左键时，根据上下这两部分代码，服务端也会产生一个按下鼠标左键的行为。同样，客户端按鼠标右键或滚动滚轮时，在服务端也会对应相应的操作。当客户端按键盘时，服务端也会有相应的操作。如若客户端按“a”键，服务端也会是一个按了“a”键的操作。这部分是客户端的代码，会将其对应服务发送给服务端，服务端对应代码进行接收并解析协议，执行操作。
-def BindEvents(canvas):
-    global soc, scale
-    '''
-    处理事件
-    '''
-    def EventDo(data):
-        soc.sendall(data)
-    # 鼠标左键
-    def LeftDown(e):
-        return EventDo(struct.pack('>BBHH', 1, 100, int(e.x/scale), int(e.y/scale)))
+
+      def BindEvents(canvas):
+          global soc, scale
+          '''
+          处理事件
+          '''
+          def EventDo(data):
+              soc.sendall(data)
+          # 鼠标左键
+          def LeftDown(e):
+              return EventDo(struct.pack('>BBHH', 1, 100, int(e.x/scale), int(e.y/scale)))
 
     def LeftUp(e):
         return EventDo(struct.pack('>BBHH', 1, 117, int(e.x/scale), int(e.y/scale)))

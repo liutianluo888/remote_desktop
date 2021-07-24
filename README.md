@@ -78,22 +78,19 @@ RFB是一个用于远程访问图形用户界面的简单协议。由于RFB协�
 ## 3.2 功能实现
 ### 3.2.1 客户端
 1. 初始化socket。对主机ip进行打包，变成长度为4的数据。开始一个新的线程。
-   
-     
-``` def SetSocket():
-          global soc, host_en
-          def byipv4(ip, port):
-             return struct.pack(">BBBBBBBBH", 5, 1, 0, 1, ip[0], ip[1], ip[2], ip[3], port)
-          def byhost(host, port):
-              d = struct.pack(">BBBB", 5, 1, 0, 3)
-              blen = len(host)
-              d+=struct.pack(">B", blen)
-              d+=host.encode()
-              d+=struct.pack(">H", port)
-              return d
-          host = host_en.get()
-
-
+```   
+def SetSocket():
+    global soc, host_en
+    def byipv4(ip, port):
+       return struct.pack(">BBBBBBBBH", 5, 1, 0, 1, ip[0], ip[1], ip[2], ip[3], port)
+    def byhost(host, port):
+        d = struct.pack(">BBBB", 5, 1, 0, 3)
+        blen = len(host)
+        d+=struct.pack(">B", blen)
+        d+=host.encode()
+        d+=struct.pack(">H", port)
+        return d
+    host = host_en.get()
 ```
 2.图形界面的创建。创建一个GUI界面，填入名称，框以及滑动块。在host中输入要控制的主机的ip地址及端口，在下面通过滑动滑块可以调整控制屏幕的大小，转化为自己想要的显示屏幕大小。
 

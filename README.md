@@ -65,22 +65,23 @@ RFB是一个用于远程访问图形用户界面的简单协议。由于RFB协�
 
 
 图3-1 结构设计流程图
-# 3.2 功能实现
-## 3.2.1 客户端
+## 3.2 功能实现
+### 3.2.1 客户端
 1. 初始化socket。对主机ip进行打包，变成长度为4的数据。开始一个新的线程。
-
-      def SetSocket():
-          global soc, host_en
-          def byipv4(ip, port):
-             return struct.pack(">BBBBBBBBH", 5, 1, 0, 1, ip[0], ip[1], ip[2], ip[3], port)
-          def byhost(host, port):
-              d = struct.pack(">BBBB", 5, 1, 0, 3)
-              blen = len(host)
-              d+=struct.pack(">B", blen)
-              d+=host.encode()
-              d+=struct.pack(">H", port)
-              return d
-          host = host_en.get()
+   
+` def SetSocket():
+    global soc, host_en
+    def byipv4(ip, port):
+       return struct.pack(">BBBBBBBBH", 5, 1, 0, 1, ip[0], ip[1], ip[2], ip[3], port)
+    def byhost(host, port):
+        d = struct.pack(">BBBB", 5, 1, 0, 3)
+        blen = len(host)
+        d+=struct.pack(">B", blen)
+        d+=host.encode()
+        d+=struct.pack(">H", port)
+        return d
+    host = host_en.get()
+`
 
 2.图形界面的创建。创建一个GUI界面，填入名称，框以及滑动块。在host中输入要控制的主机的ip地址及端口，在下面通过滑动滑块可以调整控制屏幕的大小，转化为自己想要的显示屏幕大小。
 
@@ -213,8 +214,7 @@ RFB是一个用于远程访问图形用户界面的简单协议。由于RFB协�
     canvas.bind(sequence="<KeyRelease>", func=KeyUp)
 
 5.快捷方式。快捷命令函数与tkinter布局的界面上的触发事件绑定，触发事件后即向服务端发送相应的操作。
-# 快捷命令
-def Shut_win():
+`def Shut_win():
     global soc
     soc.sendall(struct.pack('>BBHH', 4, 1, 0, 0))
 
@@ -237,9 +237,9 @@ def Task():
 def Sleep():
     global soc
     soc.sendall(struct.pack('>BBHH', 4, 6, 0, 0))
-
+`
 6.用户界面设置。使用tkinter进行窗口设置，root为主窗口，使用menu函数设置该窗口的菜单，并通过add_command函数设置菜单的相关功能，同时使用add_separator()函数为菜单栏添加分割线。在此处使用Canvas并添加图片以增添窗口的美观度。布局使用的是pack函数，这样可以随意改变窗口的大小而始终使元素位于中间位置。还使用了frame框架使相关元素保持一执性。
-root = Tk()
+`root = Tk()
 root.title("remote-desktop")
 root.geometry('400x400')
 menubar=Menu(root)
@@ -299,10 +299,10 @@ function_btn.pack(padx=40, pady=10,side=tkinter.RIGHT)
 frame1.pack(fill="x",expand="yes",padx=20, pady=20)
 frame2.pack(fill="x",expand="yes",padx=10, pady=10)
 frame3.pack(expand="yes")
-root.mainloop()
+root.mainloop()`
 
 7.窗口触发函数设置。Function窗口为二级窗口，使用Toplevel()进行设置，其格式设置方式与root基本相同，这里不再赘述。新窗口的打开调用命令行来完成。参照样式函数Preferences()使用grid进行布局，使得host与scale可以对齐。由于其位置固定，此处采用固定窗口设计。
-def View():
+`def View():
     pr = Toplevel(root)
     pr.title("function")
     pr.geometry('400x350')
@@ -396,11 +396,11 @@ def About():
     function_2 = Label(infor, text="时间： 2021/5/6")
     function_1.pack(padx=20, pady=20)
     function_2.pack(padx=10, pady=10)
-    infor.mainloop()
+    infor.mainloop()`
 
-3.2.2 服务端
+### 3.2.2 服务端
 1. 对应于客户端的键盘操作。将键盘上所有字母，数字及操作对应的地址编码与操作或值相对应。比如当客户端按“tab”键时，通过以下函数可使服务端完成一个按“tab”键的操作。
-official_virtual_keys = {
+`official_virtual_keys = {
     0x08: 'backspace',
     0x09: 'tab',
     0x0c: 'clear',
@@ -417,10 +417,10 @@ official_virtual_keys = {
     0x18: 'ime final mode',
     0x19: 'ime hanja mode',
     0x19: 'ime kanji mode',
-    ……
+     …… `
 
 2.鼠标与键盘的执行。接收客户端发来的协议，对其进行解包，获得编码地址与op，key值。根据op值与key值判断进行的操作是鼠标左键按下或者弹起。或是鼠标右键按下或者弹起，或是滚轮的操作或是键盘输入，或是快捷方式。进行相应模块后，根据（x，y）值将鼠标移到相应位置并进行操作。如要进行关闭某个页面的操作，（x，y）可以定位到×的位置，op与key可以判断这是一个鼠标左键按下的操作，就可以完成关闭这个页面的操作。键盘输入和快捷方式与上述代码相对应，可以知道具体为什么操作，判断出来后即可执行相应操作。
-def video_demo():
+`def video_demo():
     # 0是代表摄像头编号，只有一个的话默认为0
     cap = cv.VideoCapture(0)
     while cap.isOpened():
@@ -510,10 +510,10 @@ def ctrl(conn):
             y = struct.unpack('>H', cmd[4:6])[0]
             Op(key, op, x, y)
     except:
-        return
+        return`
 
 3.进行图像加法。将截取的图片进行编码，将其打包并计算数据长度。将数据长度与数据都发送给客户端。计算第二张图片的大小为l1与两张图片的差值l2，如果l1>l2，则将差值图片发送给客户端，否则则直接把第二张图片发给客户端。
-def handle(conn):
+`def handle(conn):
     global img, imbyt
     lock.acquire()
     if imbyt is None:
@@ -554,10 +554,10 @@ def handle(conn):
             # 传原编码图像
             lenb = struct.pack(">BI", 1, l1)
             conn.sendall(lenb)
-            conn.sendall(imbyt)
+            conn.sendall(imbyt)`
 
 4.用户界面设置。使用方法与客户端基本相同，只是此处呈现本机IP地址，采用命令行获得，并切片提取IP进行展示。
-def Dark_view():
+`def Dark_view():
     global root
     root.config(bg='darkgrey')
 
@@ -647,12 +647,12 @@ ip=IP()
 host_value = Label(frame1, text=ip,font=('Arial', 16))
 host_value.pack(side=RIGHT)
 frame1.pack(expand="yes",padx=20, pady=20)
-root.mainloop()
+root.mainloop()`
 
 
 
-4 系统测试及分析
-4.1 系统运行环境
+# 4 系统测试及分析
+## 4.1 系统运行环境
 
 
 
@@ -660,8 +660,8 @@ root.mainloop()
 
 
 图4-1 系统运行环境
-4.2 测试过程及结果
-4.2.1软件安装
+## 4.2 测试过程及结果
+### 4.2.1软件安装
 选择合适的路径来安装软件。
 
 
@@ -695,8 +695,8 @@ root.mainloop()
 
 图4-4 软件图标
 
-4.2.2 界面展示
-4.2.2.1.客户端
+### 4.2.2 界面展示
+#### 4.2.2.1.客户端
 
 
 1. 初始界面
@@ -843,7 +843,7 @@ root.mainloop()
 
 
 图4-16 “About”功能
-4.2.2.2.服务端
+#### 4.2.2.2.服务端
 1. 初始界面
 
 
@@ -880,8 +880,8 @@ root.mainloop()
 
 
 图4-20 “Help”功能
-4.2.3 功能测试
-4.2.3.1连接
+### 4.2.3 功能测试
+#### 4.2.3.1连接
 如图4-21所示，可以发现两台主机可以正常连接，且“function”快捷功能界面可以正常打开。
 
 
@@ -923,7 +923,7 @@ root.mainloop()
 
 
 图4-23 键盘操作
-4.2.3.2快捷功能
+#### 4.2.3.2快捷功能
 1. “关机”
 可以发现服务端已关机，客户端呈现的界面如图4-24所示。
 
@@ -1007,13 +1007,13 @@ root.mainloop()
 
 
 图4-30 “软键盘”操作
-4.3 结果分析
+## 4.3 结果分析
 从测试结果中可以看到，在远程控制下，我们可以对被控制电脑直接进行任何操作，且无需了解被控制电脑的账号和密码信息。同时，我们还添加了一些快捷指令，这样就可以更方便的对远程的电脑进行常见的操作，譬如关机等。
 不足之处在于对网速有一定要求，只有在网络条件较好的情况下才能对被控制电脑流畅地执行操作，否则就会出现严重的卡顿现象，影响使用。其次，本次实验基于内网进行测试，server与client端需处于同一局域网下，否则则无法控制。这对于满足实际需要产生了一些局限性。
-5 总结与展望
-5.1总结
-本次实验中，我们设计实现了一组远程控制软件，通过分别安装我们的server.exe及client.exe软件即可实现两台电脑间的远程控制。
-此软件相对于一些常见软件（如VNC）而言，存在一些优点，即我们的软件无须了解被控制端的账号和密码即可对其进行控制，也不需要被控制端关闭防火墙和360等安全软件。
-由此也可见，远程控制软件可以无声息的实现对电脑的所有控制。因此，我们也可以发现入侵检测系统的重要意义。现在远程控制软件层出不穷，其控制力可大可小，在方便我们生活的同时，也对我们的安全造成了一定的威胁。因此我们在平时对电脑的使用中，要重视其安全问题，保证我们的电脑和个人信息处于安全的环境，同时注意下载内容的安全，确保其不含木马病毒，只有这样，我们才能在保证安全的情况下保障需求。
-5.2展望
-本实验是在内网中进行的，并没有进行内网穿透，即没有在两个网段中进行验证。而对于远程控制软件而言，大多数使用情景为一对一控制，并不适合直接将受控端部署在服务器上，这样来说我们的软件使用范围不大。在实际应用中，需要考虑如何使客户端和服务器端安装后即位于物联网中，这样才能真正实现我们远程控制的目的。
+# 5 总结与展望
+## 5.1总结
+本次实验中，我们设计实现了一组远程控制软件，通过分别安装我们的server.exe及client.exe软件即可实现两台电脑间的远程控制。<br>
+此软件相对于一些常见软件（如VNC）而言，存在一些优点，即我们的软件无须了解被控制端的账号和密码即可对其进行控制，也不需要被控制端关闭防火墙和360等安全软件。<br>
+由此也可见，远程控制软件可以无声息的实现对电脑的所有控制。因此，我们也可以发现入侵检测系统的重要意义。现在远程控制软件层出不穷，其控制力可大可小，在方便我们生活的同时，也对我们的安全造成了一定的威胁。因此我们在平时对电脑的使用中，要重视其安全问题，保证我们的电脑和个人信息处于安全的环境，同时注意下载内容的安全，确保其不含木马病毒，只有这样，我们才能在保证安全的情况下保障需求。<br>
+## 5.2展望
+本实验是在内网中进行的，并没有进行内网穿透，即没有在两个网段中进行验证。而对于远程控制软件而言，大多数使用情景为一对一控制，并不适合直接将受控端部署在服务器上，这样来说我们的软件使用范围不大。在实际应用中，需要考虑如何使客户端和服务器端安装后即位于物联网中，这样才能真正实现我们远程控制的目的。<br>

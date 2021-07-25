@@ -677,7 +677,7 @@ root.mainloop()
 点击“Exit”即可退出程序，关闭该软件。
 ![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%877.png) 
 图4-6 “File”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%878.png) 
 图4-7 “Prefences”功能
 
 2）“View”功能
@@ -685,82 +685,82 @@ root.mainloop()
 点击“Dark”即为“夜间模式”，界面亮度改变，如图4-10所示。
 点击“Set”即可将“Preference”中的默认参数设置到界面中。
 点击“Show function”可以展示快捷功能，如图4-11所示。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%879.png) 
 图4-8 “View”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8710.png) 
 图4-9 “Light”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8711.png) 
 图4-10 “Dark”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8712.png) 
 图4-11 “Show function”功能
 3）“Help”
 点击“Technical support”，即可自动打开浏览器跳转到G码云，查看该软件所使用的相关库等技术支持。
 点击“Service status”，即可获得当前服务的状态。
 点击“Introductions”，即可获得关于该软件的简单说明
 点击“About”，即可获得软件信息。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8713.png) 
 图4-12 “Help”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8714.png) 
 图4-13 “Technical support”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8715.png) 
 图4-14 “Service status”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8716.png) 
 图4-15 “Introductions”功能
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8718.png) 
 图4-16 “About”功能
 
 #### 4.2.2.2.服务端
 1. 初始界面
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8719.png) 
 图4-17 初始界面
 2.菜单栏介绍
 1）“File”功能（具体功能与客户端一致）
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8720.png) 
 图4-18 “File”功能
 2）“View”功能（具体功能与客户端一致）
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%821.png) 
 图4-19 “View”功能
 3）“Help”功能（具体功能与客户端一致）
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8722.png) 
 图4-20 “Help”功能
 ### 4.2.3 功能测试
 #### 4.2.3.1连接
 如图4-21所示，可以发现两台主机可以正常连接，且“function”快捷功能界面可以正常打开。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8723.png) 
 图4-21 连接测试
 并且，可以发现能够在客户端对服务端进行正常的键盘和鼠标操作。如图4-22所示，可以使用客户端的鼠标将服务端打开的文件关闭。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8724.png) 
 图4-22 鼠标操作
 除此之外，如图4-23所示，可以使用客户端的键盘在服务端的文档上进行编辑。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8725.png) 
 图4-23 键盘操作
 
 #### 4.2.3.2快捷功能
 1. “关机”
 可以发现服务端已关机，客户端呈现的界面如图4-24所示。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8726.png) 
 图4-24 “关机”操作
 2. “休眠”
 可以发现服务端已休眠，客户端呈现的界面如图4-25所示。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8727.png) 
 图4-25 “休眠”操作
 3. “摄像头”
 可以发现服务端打开了摄像头，如图4-26所示，客户端呈现的界面如图4-27所示。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8728.png) 
 图4-26 服务端摄像头状态
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8729.png) 
 图4-27 “摄像头”操作
 4. “画图板”
 可以发现服务端打开了画图板，客户端呈现的界面如图4-28所示。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8730.png) 
 图4-28 “画图板”操作
 5. “任务管理器”
 可以发现服务端打开了任务管理器，客户端呈现的界面如图4-29所示。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8731.png) 
 图4-29 “任务管理器”操作
 6. “软键盘”
 可以发现服务端打开了软键盘，客户端呈现的界面如图4-30所示。
-![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%872.png) 
+![](https://github.com/liutianluo888/remote_desktop/blob/main/readme-pictures/%E5%9B%BE%E7%89%8732.png) 
 图4-30 “软键盘”操作
 ## 4.3 结果分析
 从测试结果中可以看到，在远程控制下，我们可以对被控制电脑直接进行任何操作，且无需了解被控制电脑的账号和密码信息。同时，我们还添加了一些快捷指令，这样就可以更方便的对远程的电脑进行常见的操作，譬如关机等。
